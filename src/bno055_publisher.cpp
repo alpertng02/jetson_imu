@@ -17,9 +17,27 @@ class MinimalPublisher : public rclcpp::Node {
 public:
     MinimalPublisher(std::string_view devDirectory, uint8_t devAddress)
         : Node("imu_node"), imu_(devDirectory, devAddress) {
-        publisher_ = this->create_publisher<sensor_msgs::msg::Imu>("imu_msg", rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(rmw_qos_profile_sensor_data)));
+
+        publisher_ = this->create_publisher<sensor_msgs::msg::Imu>("imu_msg",
+            rclcpp::QoS(rclcpp::QoSInitialization::from_rmw(rmw_qos_profile_sensor_data)));
         timer_ = this->create_wall_timer(
             10ms, std::bind(&MinimalPublisher::timer_callback, this));
+
+        constexpr std::array accelCovariance = { 0.017, 0.017, 0.017 };
+        constexpr std::array gyroCovariance = { 0.04, 0.04, 0.04 };
+        constexpr std::array quatCovariance = { 0.0159, 0.0159, 0.0159 };
+
+        for (size_t i = 0; i < imuMsg_.angular_velocity_covariance.size(); i++) {
+            if (i % 3 == 0) {
+                imuMsg_.angular_velocity_covariance[i] = gyroCovariance[i / 3];
+                imuMsg_.linear_acceleration_covariance[i] = accelCovariance[i / 3];
+                imuMsg_.orientation_covariance[i] = quatCovariance[i / 3];
+            } else {
+                imuMsg_.angular_velocity_covariance[i] = 0;
+                imuMsg_.linear_acceleration_covariance[i] = 0;
+                imuMsg_.orientation_covariance[i] = 0;
+            }
+        }
     }
 
 private:
@@ -40,6 +58,8 @@ private:
         imuMsg_.orientation.x = quats.x;
         imuMsg_.orientation.y = quats.y;
         imuMsg_.orientation.z = quats.z;
+
+
 
         RCLCPP_INFO(this->get_logger(), "LinearAccel: x: %3.2f,  y: %3.2f,  z: %3.2f\n", accel.x, accel.y, accel.z);
         RCLCPP_INFO(this->get_logger(), "AngularVel : x: %3.2f,  y: %3.2f,  z: %3.2f\n", gyro.x, gyro.y, gyro.z);
@@ -66,7 +86,7 @@ int main(int argc, char* argv[]) {
     uint8_t devAddress {};
     try {
         auto devAdressInput = std::stoul(argv[2]);
-        if (devAdressInput < 0 || devAdressInput > std::numeric_limits<uint8_t>().max()) {
+        if (devAdressInput > std::numeric_limits<uint8_t>().max()) {
             RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Error! Device I2C adress is not valid!\n");
             return -1;
         } else {
