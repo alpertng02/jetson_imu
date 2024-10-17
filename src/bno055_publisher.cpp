@@ -59,8 +59,6 @@ private:
         imuMsg_.orientation.y = quats.y;
         imuMsg_.orientation.z = quats.z;
 
-
-
         RCLCPP_INFO(this->get_logger(), "LinearAccel: x: %3.2f,  y: %3.2f,  z: %3.2f\n", accel.x, accel.y, accel.z);
         RCLCPP_INFO(this->get_logger(), "AngularVel : x: %3.2f,  y: %3.2f,  z: %3.2f\n", gyro.x, gyro.y, gyro.z);
         RCLCPP_INFO(this->get_logger(), "Quaternion : w: %3.2f,  x: %3.2f,  y: %3.2f,  z: %3.2f\n\n", quats.w, quats.x, quats.y, quats.z);
