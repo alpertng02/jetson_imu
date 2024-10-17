@@ -10,7 +10,7 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(sensor_msgs REQUIRED)
 
-add_subdirectory(src/jetson-bno055/lib)
+add_subdirectory(src/lib/jetson-bno055/lib)
 
 add_executable(bno055_publisher src/bno055_publisher.cpp)
 ament_target_dependencies(bno055_publisher rclcpp sensor_msgs)
