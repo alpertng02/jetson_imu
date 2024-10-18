@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
     }
 
     try {
-        rclcpp::spin(std::make_shared<MinimalPublisher>(devDirectory, devAddress));
+        rclcpp::spin(std::make_shared<MinimalPublisher>("/dev/i2c-1", 0x28));
     } catch (std::runtime_error& err) {
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), err.what());
     }
