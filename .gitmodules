@@ -1,6 +1,3 @@
-[submodule "src/jetson-bno055"]
-	path = src/jetson-bno055
-	url = https://github.com/alpertng02/jetson-bno055.git
 [submodule "src/lib/jetson-bno055"]
 	path = src/lib/jetson-bno055
 	url = https://github.com/alpertng02/jetson-bno055.git
