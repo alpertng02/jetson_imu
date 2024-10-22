@@ -83,7 +83,7 @@ int main(int argc, char* argv[]) {
 
     uint8_t devAddress {};
     try {
-        auto devAdressInput = std::stoul(argv[2]);
+        auto devAdressInput = std::stoul(argv[2], nullptr, 16);
         if (devAdressInput > std::numeric_limits<uint8_t>().max()) {
             RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), "Error! Device I2C adress is not valid!\n");
             return -1;
@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
     }
 
     try {
-        rclcpp::spin(std::make_shared<MinimalPublisher>("/dev/i2c-1", 0x28));
+        rclcpp::spin(std::make_shared<MinimalPublisher>(devDirectory, devAddress));
     } catch (std::runtime_error& err) {
         RCLCPP_ERROR(rclcpp::get_logger("rclcpp"), err.what());
     }
