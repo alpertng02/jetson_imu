@@ -111,8 +111,9 @@ int main(int argc, char* argv[]) {
         }
         std::this_thread::sleep_for(1s);
     }
-
-    rclcpp::spin(node);
+    if (node != nullptr) {
+        rclcpp::spin(node);
+    }
 
     rclcpp::shutdown();
     return 0;
