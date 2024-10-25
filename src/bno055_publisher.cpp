@@ -66,7 +66,9 @@ private:
             publisher_->publish(imuMsg_);
         } catch (std::runtime_error& err) {
             RCLCPP_ERROR(this->get_logger(), "Sensor connection is lost!\n");
-            std::this_thread::sleep_for(1s);
+            if (!imu_.reconnect()) {
+                std::this_thread::sleep_for(1s);
+            }
         }
     }
     rclcpp::TimerBase::SharedPtr timer_;
