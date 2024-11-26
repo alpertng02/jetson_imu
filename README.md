@@ -25,7 +25,7 @@ BNO055_ROS2 is a Ros2 Humble package designed to interface with the Bosch BNO055
     ```
 3. Build using colcon:
     ```sh
-    colcon build --packages-select bno055_ros2
+    colcon build --cmake-args=-DCMAKE_BUILD_TYPE=Release' --packages-select bno055_ros2
     ```
 ## Usage
 1. Connect the BNO055 sensor to your Jetson device through GPIO 3 and 5.
