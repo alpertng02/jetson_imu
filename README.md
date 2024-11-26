@@ -1,7 +1,7 @@
-# Jetson IMU
+# BNO055_ROS2
 
 ## Overview
-Jetson IMU is a Ros2 Humble package designed to interface with the Bosch BNO055 sensor on Jetson devices, providing orientation and motion sensing capabilities. This project uses BNO055_SensorAPI and libi2c libraries.
+BNO055_ROS2 is a Ros2 Humble package designed to interface with the Bosch BNO055 sensor on Jetson devices, providing orientation and motion sensing capabilities. This project uses BNO055_SensorAPI and libi2c libraries.
 
 ## Features
 - 9-axis sensor fusion
